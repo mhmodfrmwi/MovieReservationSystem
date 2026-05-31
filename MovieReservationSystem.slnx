@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Application/">
+    <Project Path="MovieReservationSystem.Domain/MovieReservationSystem.Domain.csproj" />
+    <Project Path="MovieReservationSystem.Services Abstraction/MovieReservationSystem.Services Abstraction.csproj" />
+    <Project Path="MovieReservationSystem.Services/MovieReservationSystem.Services.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="MovieReservationSystem.Presistence/MovieReservationSystem.Presistence.csproj" />
+  </Folder>
+  <Folder Name="/Presentation/">
+    <Project Path="MovieReservationSystem.Presentation/MovieReservationSystem.Presentation.csproj" />
+    <Project Path="MovieReservationSystem.Web/MovieReservationSystem.Web.csproj" />
+  </Folder>
+  <Project Path="MovieReservationSystem.Shared/MovieReservationSystem.Shared.csproj" />
+</Solution>
