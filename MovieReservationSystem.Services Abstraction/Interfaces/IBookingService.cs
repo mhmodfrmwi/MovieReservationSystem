@@ -9,5 +9,6 @@ namespace MovieReservationSystem.Services_Abstraction.Interfaces
     {
         Task<BookingDto> CreateBookingAsync(string userId, CreateBookingDto createBookingDto);
         Task<BookingDto> GetBookingByIdAsync(int bookingId);
+        Task<IEnumerable<MyBookingDto>> GetUserBookingsAsync(string userId);
     }
 }

@@ -41,5 +41,18 @@ namespace MovieReservationSystem.Web.Controllers
             }
 
         }
+        [HttpGet("my-bookings")]
+        public async Task<ActionResult<IEnumerable<MyBookingDto>>> GetMyBookings()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID could not be determined from the token.");
+            }
+
+            var bookings = await bookingService.GetUserBookingsAsync(userId);
+            return Ok(bookings);
+        }
     }
 }

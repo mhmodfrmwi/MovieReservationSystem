@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.17.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
   </ItemGroup>
 
@@ -14,5 +15,7 @@
     <ProjectReference Include="..\MovieReservationSystem.Domain\MovieReservationSystem.Domain.csproj" />
     <ProjectReference Include="..\MovieReservationSystem.Services Abstraction\MovieReservationSystem.Services Abstraction.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
 </Project>

@@ -28,6 +28,9 @@ builder.Services.AddScoped<IHallService, HallService>();
 builder.Services.AddScoped<IShowtimeService, ShowtimeService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ISeatService, SeatService>();
+builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 

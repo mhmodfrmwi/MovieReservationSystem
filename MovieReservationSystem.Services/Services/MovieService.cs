@@ -66,5 +66,34 @@ namespace MovieReservationSystem.Services.Services
             movie.TrailerUrl
         );
         }
+        public async Task<Pagination<MovieDto>> GetMoviesAsync(MovieQueryParams queryParams)
+        {
+
+            var query = unitOfWork.Repository<Movie>().GetQueryable();
+
+            if (!string.IsNullOrEmpty(queryParams.Search))
+            {
+                query = query.Where(m => m.Title.Contains(queryParams.Search));
+            }
+
+            if (!string.IsNullOrEmpty(queryParams.Genre))
+            {
+                query = query.Where(m => m.Genres.Any(g => g.Name == queryParams.Genre));
+            }
+
+            int totalItems = query.Count();
+
+
+            var movies = query
+                .Skip((queryParams.PageIndex - 1) * queryParams.PageSize)
+                .Take(queryParams.PageSize)
+                .ToList();
+
+            var movieDtos = movies.Select(m => new MovieDto(
+                m.Id, m.Title, m.Description, m.DurationInMinutes, m.PosterUrl, m.Language, m.ReleaseDate, m.TrailerUrl
+            ));
+
+            return new Pagination<MovieDto>(queryParams.PageIndex, queryParams.PageSize, totalItems, movieDtos);
+        }
     }
 }

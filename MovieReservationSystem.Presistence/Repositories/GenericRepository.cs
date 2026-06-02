@@ -29,5 +29,10 @@ namespace MovieReservationSystem.Presistence.Repositories
         {
             context.Set<T>().Remove(entity);
         }
+
+        public IQueryable<T> GetQueryable()
+        {
+            return context.Set<T>().AsQueryable();
+        }
     }
 }

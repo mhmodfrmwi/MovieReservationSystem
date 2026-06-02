@@ -18,6 +18,15 @@ namespace MovieReservationSystem.Services.Services
                 {
                     throw new Exception("Showtime not found");
                 }
+                var existingBookings = await unitOfWork.Repository<Booking>().GetAllAsync();
+                var showtimeBookings = existingBookings.Where(b => b.ShowtimeId == createBookingDto.ShowtimeId);
+                var existingTickets = await unitOfWork.Repository<Ticket>().GetAllAsync();
+                var bookedSeatIds = existingTickets.Where(t => showtimeBookings.Any(b => b.Id == t.BookingId)).Select(t => t.SeatId).ToHashSet();
+                var isAnySeatAlreadyBooked = createBookingDto.SeatIds.Any(seatId => bookedSeatIds.Contains(seatId));
+                if (isAnySeatAlreadyBooked)
+                {
+                    throw new Exception("One or more selected seats are already booked");
+                }
                 decimal totalPrice = showtime.TicketPrice * createBookingDto.SeatIds.Count;
                 var booking = new Booking
                 {
@@ -53,9 +62,8 @@ namespace MovieReservationSystem.Services.Services
             }
             catch (Exception ex)
             {
-                // Log the exception (you can use a logging framework like Serilog, NLog, etc.)
                 Console.WriteLine($"An error occurred while creating the booking: {ex.Message}");
-                throw; // Rethrow the exception to be handled by the caller
+                throw;
             }
 
         }
@@ -77,6 +85,32 @@ namespace MovieReservationSystem.Services.Services
                  booking.UserId,
                  booking.Tickets.Select(t => t.SeatId).ToList()
             );
+        }
+        public async Task<IEnumerable<MyBookingDto>> GetUserBookingsAsync(string userId)
+        {
+            var allBookings = await unitOfWork.Repository<Booking>().GetAllAsync();
+            var userBookings = allBookings.Where(b => b.UserId == userId).ToList();
+
+            var allTickets = await unitOfWork.Repository<Ticket>().GetAllAsync();
+
+            var result = new List<MyBookingDto>();
+
+            foreach (var booking in userBookings)
+            {
+                var seatIds = allTickets.Where(t => t.BookingId == booking.Id)
+                                        .Select(t => t.SeatId)
+                                        .ToList();
+
+                result.Add(new MyBookingDto(
+                    booking.Id,
+                    booking.BookingDate,
+                    booking.TotalAmount,
+                    booking.ShowtimeId,
+                    seatIds
+                ));
+            }
+
+            return result.OrderByDescending(b => b.BookingDate);
         }
     }
 }

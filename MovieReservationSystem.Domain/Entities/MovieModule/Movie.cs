@@ -14,7 +14,8 @@ namespace MovieReservationSystem.Domain.Entities.MovieModule
         public string Language { get; set; }
 
         // Navigation properties
-        public IList<Genre> Genres { get; set; }=new List<Genre>();
-        public IList<Showtime> Showtimes { get; set; }= new List<Showtime>();
+        public IList<Genre> Genres { get; set; } = new List<Genre>();
+        public IList<Showtime> Showtimes { get; set; } = new List<Showtime>();
+        public IList<Review> Reviews { get; set; } = new List<Review>();
     }
 }

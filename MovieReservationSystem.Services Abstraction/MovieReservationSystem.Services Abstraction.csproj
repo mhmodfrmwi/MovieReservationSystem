@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MovieReservationSystem.Domain\MovieReservationSystem.Domain.csproj" />
     <ProjectReference Include="..\MovieReservationSystem.Shared\MovieReservationSystem.Shared.csproj" />
   </ItemGroup>
