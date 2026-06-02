@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MovieReservationSystem.Domain\MovieReservationSystem.Domain.csproj" />
     <ProjectReference Include="..\MovieReservationSystem.Services Abstraction\MovieReservationSystem.Services Abstraction.csproj" />
   </ItemGroup>

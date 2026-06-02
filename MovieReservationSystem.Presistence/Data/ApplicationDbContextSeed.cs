@@ -1,13 +1,6 @@
 using MovieReservationSystem.Domain.Entities.CinemaModule;
 using MovieReservationSystem.Domain.Entities.MovieModule;
 using MovieReservationSystem.Domain.Entities.ShowtimeModule;
-using MovieReservationSystem.Domain.Entities.BookingModule;
-using MovieReservationSystem.Domain.Entities.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieReservationSystem.Presistence.Data
 {
@@ -50,7 +43,7 @@ namespace MovieReservationSystem.Presistence.Data
             if (!context.Halls.Any())
             {
                 var cinema = context.Cinemas.FirstOrDefault();
-                if(cinema != null)
+                if (cinema != null)
                 {
                     var halls = new List<Hall>
                     {
@@ -65,13 +58,13 @@ namespace MovieReservationSystem.Presistence.Data
             if (!context.Seats.Any())
             {
                 var hall = context.Halls.FirstOrDefault();
-                if(hall != null)
+                if (hall != null)
                 {
                     var seats = new List<Seat>
                     {
-                        new Seat { Row = "A", Number = 1, HallId = hall.Id },
-                        new Seat { Row = "A", Number = 2, HallId = hall.Id },
-                        new Seat { Row = "B", Number = 1, HallId = hall.Id }
+                        new Seat { Row = "A", Number = "1A", HallId = hall.Id },
+                        new Seat { Row = "A", Number = "2A", HallId = hall.Id },
+                        new Seat { Row = "B", Number = "1B", HallId = hall.Id }
                     };
                     context.Seats.AddRange(seats);
                     await context.SaveChangesAsync();
@@ -112,18 +105,18 @@ namespace MovieReservationSystem.Presistence.Data
             {
                 var movie = context.Movies.FirstOrDefault();
                 var hall = context.Halls.FirstOrDefault();
-                if(movie != null && hall != null)
+                if (movie != null && hall != null)
                 {
                     var showtimes = new List<Showtime>
                     {
-                        new Showtime { StartTime = DateTime.UtcNow.AddDays(1), EndTime = DateTime.UtcNow.AddDays(1).AddMinutes(movie.DurationInMinutes), BasePrice = 10.5m, MovieId = movie.Id, HallId = hall.Id },
-                        new Showtime { StartTime = DateTime.UtcNow.AddDays(2), EndTime = DateTime.UtcNow.AddDays(2).AddMinutes(movie.DurationInMinutes), BasePrice = 12.0m, MovieId = movie.Id, HallId = hall.Id }
+                        new Showtime { StartTime = DateTime.UtcNow.AddDays(1), EndTime = DateTime.UtcNow.AddDays(1).AddMinutes(movie.DurationInMinutes), TicketPrice = 10.5m, MovieId = movie.Id, HallId = hall.Id },
+                        new Showtime { StartTime = DateTime.UtcNow.AddDays(2), EndTime = DateTime.UtcNow.AddDays(2).AddMinutes(movie.DurationInMinutes), TicketPrice = 12.0m, MovieId = movie.Id, HallId = hall.Id }
                     };
                     context.Showtimes.AddRange(showtimes);
                     await context.SaveChangesAsync();
                 }
             }
-            
+
             // Note: Users should ideally be seeded using UserManager. Bookings, Tickets and Payments depend on users.
             // As this is a basic seed, we can just seed the data that doesn't strictly require an Identity user, or skip bookings.
         }

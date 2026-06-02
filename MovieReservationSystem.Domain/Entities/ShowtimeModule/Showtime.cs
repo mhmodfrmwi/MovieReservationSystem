@@ -8,7 +8,7 @@ namespace MovieReservationSystem.Domain.Entities.ShowtimeModule
     {
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public decimal BasePrice { get; set; }
+        public decimal TicketPrice { get; set; }
 
         public int MovieId { get; set; }
         public int HallId { get; set; }
