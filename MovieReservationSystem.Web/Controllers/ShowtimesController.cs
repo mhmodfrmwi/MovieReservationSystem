@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieReservationSystem.Domain.Constants;
 using MovieReservationSystem.Domain.DTOs.ShowtimeDTOs;
-using MovieReservationSystem.Services.Services;
+using MovieReservationSystem.Services_Abstraction.Interfaces;
 
 namespace MovieReservationSystem.Web.Controllers
 {
@@ -19,16 +21,52 @@ namespace MovieReservationSystem.Web.Controllers
         public async Task<ActionResult<ShowtimeDto>> GetShowtimeById(int id)
         {
             var showtime = await showtimeService.GetShowtimeByIdAsync(id);
-            if (showtime == null) return NotFound($"Showtime with ID {id} was not found.");
-
-            return Ok(showtime);
+            return showtime is null ? NotFound($"Showtime with ID {id} was not found.") : Ok(showtime);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<ActionResult<ShowtimeDto>> AddShowtime(CreateShowtimeDto dto)
         {
-            var createdShowtime = await showtimeService.AddShowtimeAsync(dto);
-            return CreatedAtAction(nameof(GetShowtimeById), new { id = createdShowtime.Id }, createdShowtime);
+            try
+            {
+                var createdShowtime = await showtimeService.AddShowtimeAsync(dto);
+                return CreatedAtAction(nameof(GetShowtimeById), new { id = createdShowtime.Id }, createdShowtime);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ShowtimeDto>> UpdateShowtime(int id, UpdateShowtimeDto dto)
+        {
+            try
+            {
+                var updated = await showtimeService.UpdateShowtimeAsync(id, dto);
+                return updated is null ? NotFound($"Showtime with ID {id} was not found.") : Ok(updated);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = Roles.Admin)]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteShowtime(int id)
+        {
+            try
+            {
+                var deleted = await showtimeService.DeleteShowtimeAsync(id);
+                return deleted ? NoContent() : NotFound($"Showtime with ID {id} was not found.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

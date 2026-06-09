@@ -6,5 +6,7 @@ namespace MovieReservationSystem.Services_Abstraction.Interfaces
     {
         Task<AuthDto> RegisterAsync(RegisterDto dto);
         Task<AuthDto> LoginAsync(LoginDto dto);
+        Task<UserProfileDto?> GetProfileAsync(string userId);
+        Task<UserProfileDto> UpdateProfileAsync(string userId, UpdateUserProfileDto dto);
     }
 }

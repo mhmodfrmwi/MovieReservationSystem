@@ -34,5 +34,10 @@ namespace MovieReservationSystem.Presistence.Repositories
         {
             return context.Set<T>().AsQueryable();
         }
+
+        public async Task<T?> GetByIdAsync(string userId)
+        {
+            return await context.Set<T>().FindAsync(userId);
+        }
     }
 }

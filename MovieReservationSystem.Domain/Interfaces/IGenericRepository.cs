@@ -8,5 +8,6 @@ namespace MovieReservationSystem.Domain.Interfaces
         void Update(T entity);
         void Delete(T entity);
         IQueryable<T> GetQueryable();
+        Task<T?> GetByIdAsync(string userId);
     }
 }

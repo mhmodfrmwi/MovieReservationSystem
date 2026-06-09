@@ -12,5 +12,20 @@ namespace MovieReservationSystem.Domain.DTOs.MovieDTOs
         }
         public string? Search { get; set; }
         public string? Genre { get; set; }
+        public int? GenreId { get; set; }
+
+        /// <summary>Alias for Genre — used by category dropdown filters.</summary>
+        public string? Category
+        {
+            get => Genre;
+            set => Genre = value;
+        }
+
+        /// <summary>Alias for GenreId — used when dropdown value is the category id.</summary>
+        public int? CategoryId
+        {
+            get => GenreId;
+            set => GenreId = value;
+        }
     }
 }

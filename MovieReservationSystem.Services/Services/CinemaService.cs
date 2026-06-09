@@ -9,27 +9,50 @@ namespace MovieReservationSystem.Services.Services
     {
         public async Task<CinemaDto> AddCinemaAsync(CreateCinemaDto dto)
         {
-            var cinema = new Cinema
-            {
-                Name = dto.Name,
-                Location = dto.Location
-            };
+            var cinema = new Cinema { Name = dto.Name, Location = dto.Location };
             await unitOfWork.Repository<Cinema>().AddAsync(cinema);
             await unitOfWork.CompleteAsync();
-            return new CinemaDto(cinema.Id, cinema.Name, cinema.Location);
-
+            return MapToDto(cinema);
         }
 
         public async Task<IEnumerable<CinemaDto>> GetAllCinemasAsync()
         {
             var cinemas = await unitOfWork.Repository<Cinema>().GetAllAsync();
-            return cinemas.Select(c => new CinemaDto(c.Id, c.Name, c.Location));
+            return cinemas.Select(MapToDto);
         }
 
-        public Task<CinemaDto?> GetCinemaByIdAsync(int id)
+        public async Task<CinemaDto?> GetCinemaByIdAsync(int id)
         {
-            var cinema = unitOfWork.Repository<Cinema>().GetByIdAsync(id);
-            return cinema.ContinueWith(c => c.Result == null ? null : new CinemaDto(c.Result.Id, c.Result.Name, c.Result.Location));
+            var cinema = await unitOfWork.Repository<Cinema>().GetByIdAsync(id);
+            return cinema is null ? null : MapToDto(cinema);
         }
+
+        public async Task<CinemaDto?> UpdateCinemaAsync(int id, UpdateCinemaDto dto)
+        {
+            var cinema = await unitOfWork.Repository<Cinema>().GetByIdAsync(id);
+            if (cinema is null) return null;
+
+            cinema.Name = dto.Name;
+            cinema.Location = dto.Location;
+            unitOfWork.Repository<Cinema>().Update(cinema);
+            await unitOfWork.CompleteAsync();
+            return MapToDto(cinema);
+        }
+
+        public async Task<bool> DeleteCinemaAsync(int id)
+        {
+            var cinema = await unitOfWork.Repository<Cinema>().GetByIdAsync(id);
+            if (cinema is null) return false;
+
+            var halls = await unitOfWork.Repository<Hall>().GetAllAsync();
+            if (halls.Any(h => h.CinemaId == id))
+                throw new Exception("Cannot delete a cinema that has halls.");
+
+            unitOfWork.Repository<Cinema>().Delete(cinema);
+            await unitOfWork.CompleteAsync();
+            return true;
+        }
+
+        private static CinemaDto MapToDto(Cinema cinema) => new(cinema.Id, cinema.Name, cinema.Location);
     }
 }

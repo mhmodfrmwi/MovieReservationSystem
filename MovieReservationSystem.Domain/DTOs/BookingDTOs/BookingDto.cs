@@ -8,6 +8,7 @@ namespace MovieReservationSystem.Domain.DTOs.BookingDTOs
         string Status,
         int ShowtimeId,
         string UserId,
-        List<int> ReservedSeatIds
+        List<int> ReservedSeatIds,
+        PaymentDto? Payment
     );
 }

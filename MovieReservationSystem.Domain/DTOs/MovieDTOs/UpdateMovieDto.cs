@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieReservationSystem.Domain.DTOs.MovieDTOs
 {
-    public record CreateMovieDto(
+    public record UpdateMovieDto(
         [property: Required][property: MaxLength(200)] string Title,
         [property: MaxLength(1000)] string Description,
         [property: Range(1, 600)] int DurationInMinutes,

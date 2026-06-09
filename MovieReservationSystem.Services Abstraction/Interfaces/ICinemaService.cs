@@ -1,7 +1,4 @@
 using MovieReservationSystem.Domain.DTOs.CinemaDTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MovieReservationSystem.Services_Abstraction.Interfaces
 {
@@ -10,5 +7,7 @@ namespace MovieReservationSystem.Services_Abstraction.Interfaces
         Task<IEnumerable<CinemaDto>> GetAllCinemasAsync();
         Task<CinemaDto?> GetCinemaByIdAsync(int id);
         Task<CinemaDto> AddCinemaAsync(CreateCinemaDto dto);
+        Task<CinemaDto?> UpdateCinemaAsync(int id, UpdateCinemaDto dto);
+        Task<bool> DeleteCinemaAsync(int id);
     }
 }

@@ -8,6 +8,7 @@ namespace MovieReservationSystem.Domain.DTOs.MovieDTOs
         string PosterUrl,
         string Language,
         DateTime ReleaseDate,
-        string TrailerUrl
+        string TrailerUrl,
+        IReadOnlyList<string> Genres
     );
 }

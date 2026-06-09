@@ -1,7 +1,4 @@
 using MovieReservationSystem.Domain.DTOs.ReviewDTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MovieReservationSystem.Services_Abstraction.Interfaces
 {
@@ -9,5 +6,7 @@ namespace MovieReservationSystem.Services_Abstraction.Interfaces
     {
         Task AddReviewAsync(CreateReviewDto dto, string userId, string userName);
         Task<IEnumerable<ReviewDto>> GetMovieReviewsAsync(int movieId);
+        Task<bool> UpdateReviewAsync(int reviewId, string userId, UpdateReviewDto dto, bool isAdmin);
+        Task<bool> DeleteReviewAsync(int reviewId, string userId, bool isAdmin);
     }
 }
